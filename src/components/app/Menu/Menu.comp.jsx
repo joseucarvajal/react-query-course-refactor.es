@@ -12,6 +12,8 @@ import {
     Link
 } from "react-router-dom";
 
+import ContadorTareas from '../../Tarea/Contador-tareas/Contador-tareas.comp';
+
 const Menu = () => {
     return (
         <Navbar bg="light" expand="xs" className="flex-column">
@@ -21,6 +23,9 @@ const Menu = () => {
                 <Nav.Link as={Link} to="/tareas-list">Tareas</Nav.Link>
                 <NavDropdown.Divider />
             </Nav>
+            <ContadorTareas
+                soloTareasPendientes={true}
+            />
         </Navbar>
     )
 }
