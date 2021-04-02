@@ -1,28 +1,12 @@
-import { useState } from 'react';
-
-import useTareasApi from '../../Api/useTareasApi';
+import { useContext } from 'react';
+import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
 
 export const useEliminarTarea = () => {
 
-    const tareasApi = useTareasApi();
-    const [estadoEliminar, setEstadoEliminar] = useState('');
-    const [error, setError] = useState('');
-
-    const eliminarTarea = async (idTarea) => {
-        try {
-            setEstadoEliminar('procesando');
-            await tareasApi.delete(`/tareas/${idTarea}`);
-            setEstadoEliminar('exito');
-            setError(null);
-        }
-        catch (err) {
-            setError('Hubo un error eliminando la tarea');
-            setEstadoEliminar('');
-        }
-    }
+    const {estadoRequest, error, eliminarTarea } = useContext(tareaContext);
 
     return {
-        estadoEliminar,
+        estadoRequest,
         error,
         eliminarTarea,
     };

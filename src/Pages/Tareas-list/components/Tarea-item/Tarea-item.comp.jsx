@@ -12,14 +12,8 @@ import { Link } from 'react-router-dom';
 import { useEliminarTarea } from '../../../../Hooks/Tarea/useEliminarTarea.hook';
 
 const TareaItem = ({ tarea, onTareaEliminada }) => {
-    const { estadoEliminar, eliminarTarea } = useEliminarTarea();
+    const { estadoRequest, eliminarTarea } = useEliminarTarea();
 
-    useEffect(() => {
-        if (estadoEliminar === 'exito') {
-            onTareaEliminada();
-        }
-    }, [estadoEliminar]);
-    
     return (
         <ListGroup.Item variant="light">
             <Row>
@@ -27,11 +21,11 @@ const TareaItem = ({ tarea, onTareaEliminada }) => {
                     <Link to={`/modificar-tarea/${tarea.id}`}>{tarea.titulo}</Link>
                 </Col>
                 <Col>
-                    {estadoEliminar === 'procesando'
+                    {estadoRequest === 'procesando'
                         ? <Spinner animation="border" variant="primary" />
                         : null
                     }
-                    {estadoEliminar !== 'procesando'
+                    {estadoRequest !== 'procesando'
                         ?
                         <Button variant="danger" onClick={() => {
                             eliminarTarea(tarea.id);

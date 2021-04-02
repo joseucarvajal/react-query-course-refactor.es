@@ -14,22 +14,25 @@ import {
 import Menu from './components/app/Menu/Menu.comp';
 import PaginaContainer from './components/app/Pagina-container/Pagina-container.comp';
 import Footer from './components/app/Footer/Footer.comp';
+import TareaProvider from './Providers/Tarea/Tarea.provider';
 
 function App() {
   return (
-    <Router>
-      <Container fluid className="app-container">
-        <Row>
-          <Col xs="3">
-            <Menu />
-          </Col>
-          <Col>
-            <PaginaContainer />
-          </Col>
-        </Row>
-        <Footer />
-      </Container>
-    </Router>
+    <TareaProvider>
+      <Router>
+        <Container fluid className="app-container">
+          <Row>
+            <Col xs="3">
+              <Menu />
+            </Col>
+            <Col>
+              <PaginaContainer />
+            </Col>
+          </Row>
+          <Footer />
+        </Container>
+      </Router>
+    </TareaProvider>
   );
 }
 

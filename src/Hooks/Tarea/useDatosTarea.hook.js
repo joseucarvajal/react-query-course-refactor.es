@@ -1,29 +1,9 @@
-import { useEffect, useState } from 'react';
-
-import useTareasApi from '../../Api/useTareasApi';
+import { useContext, useEffect } from 'react';
+import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
 
 export const useDatosTarea = () => {
 
-    const tareasApi = useTareasApi();
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [tareasList, setTareasList] = useState([]);
-
-    const getTareas = async () => {
-        try {
-            setIsLoading(true);
-            const { data } = await tareasApi.get("/tareas");
-            setTareasList(data);
-            setError(null);
-        }
-        catch (err) {
-            setError('Hubo un error cargando las tareas');
-            setTareasList([]);
-        }
-        finally {
-            setIsLoading(false);
-        }
-    }
+    const { isLoading, error, getTareas, tareasList } = useContext(tareaContext);
 
     useEffect(() => {
         getTareas();

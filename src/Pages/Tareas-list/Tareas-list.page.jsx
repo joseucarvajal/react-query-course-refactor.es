@@ -37,12 +37,7 @@ const TareasListPage = () => {
                     </Alert>
                     : null
                 }
-                <ListadoTareas 
-                    tareasList={tareasList} 
-                    onTareaEliminada={()=>{
-                        getTareas();
-                    }}
-                />
+                <ListadoTareas tareasList={tareasList}/>
             </Tab>
             <Tab eventKey="adicionar" title="Agregar nueva tarea">
                 <CrearTarea />

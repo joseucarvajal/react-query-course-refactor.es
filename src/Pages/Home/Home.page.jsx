@@ -5,7 +5,7 @@ const Home = () => {
         <div>
             Home page
             <br/>
-            <b>v1.2</b>: Lista, contador de tareas y eliminar tarea, lógica centralizada en hooks
+            <b>v1.3</b>: Lista, contadores y eliminar tarea, global state con React Context
         </div>
     )
 }
