@@ -5,7 +5,7 @@ const Home = () => {
         <div>
             Home page
             <br/>
-            <b>v1.3</b>: Lista, contadores y eliminar tarea, global state con React Context
+            <b>v1.4</b>: Deduplicar requests vía React refs
         </div>
     )
 }

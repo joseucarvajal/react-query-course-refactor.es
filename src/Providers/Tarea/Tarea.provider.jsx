@@ -1,4 +1,4 @@
-import React, { createContext, useState, useMemo } from 'react';
+import React, { createContext, useState, useMemo, useRef } from 'react';
 import useTareasApi from '../../Api/useTareasApi';
 
 export const tareaContext = createContext();
@@ -10,21 +10,30 @@ const TareaProvider = ({ children }) => {
     const [estadoRequest, setEstadoRequest] = useState('');
     const [error, setError] = useState('');
     const [tareasList, setTareasList] = useState([]);
+    
+    const promesaActivaRef = useRef(false)
 
     const getTareas = async () => {
-        try {
-            setIsLoading(true);
-            const { data } = await tareasApi.get("/tareas");
-            setTareasList(data);
-            setError(null);
+        if (!promesaActivaRef.current) {
+            promesaActivaRef.current = (async () => {
+                try {
+                    setIsLoading(true);
+                    const { data } = await tareasApi.get("/tareas");
+                    setTareasList(data);
+                    setError(null);
+                }
+                catch (err) {
+                    setError('Hubo un error cargando las tareas');
+                    setTareasList([]);
+                }
+                finally {
+                    setIsLoading(false);
+                    promesaActivaRef.current = false;
+                }
+            })();
         }
-        catch (err) {
-            setError('Hubo un error cargando las tareas');
-            setTareasList([]);
-        }
-        finally {
-            setIsLoading(false);
-        }
+
+        return promesaActivaRef.current;
     }
 
     const eliminarTarea = async (idTarea) => {
@@ -46,7 +55,7 @@ const TareaProvider = ({ children }) => {
         error,
         tareasList,
         estadoRequest,
-        
+
         getTareas,
         eliminarTarea,
     }));
