@@ -1,0 +1,63 @@
+{
+  "tareas": [
+    {
+      "titulo": "Configurar ambiente de desarrollo",
+      "descripcion": "Instalar Node Version Manager (NVM), luego instalar NodeJS...",
+      "duracion": 1,
+      "estado": "terminada",
+      "prioridad": 3,
+      "responsablesIds": [
+        1
+      ],
+      "id": "XJhtUe"
+    },
+    {
+      "titulo": "Crear un backend falso con JSON Server",
+      "descripcion": "En esta tarea se deben definir los objetos JSON para un backend falso, de tal manera que se pueda emular el comportamiento de un servidor REST real",
+      "duracion": 5,
+      "estado": "iniciada",
+      "prioridad": 3,
+      "responsablesIds": [
+        2
+      ],
+      "id": "506fhVv"
+    },
+    {
+      "titulo": "Crear nuevo proyecto React con React Query",
+      "descripcion": "Crear un proyecto desde cero con React-Query, para esto debe instalarse la librería a través de NPM",
+      "duracion": 2,
+      "estado": "iniciada",
+      "prioridad": 2,
+      "responsablesIds": [
+        1
+      ],
+      "id": "sOATAer"
+    },
+    {
+      "estado": "terminada",
+      "duracion": "1",
+      "prioridad": "6",
+      "titulo": "Create repositorio en GitHub",
+      "descripcion": "Subir la versión inicial del proyecto con los archivos que se crean por defecto",
+      "id": "oEaELeh"
+    },
+    {
+      "estado": "iniciada",
+      "duracion": "12",
+      "prioridad": "3",
+      "titulo": "Diagramar el layout inicial de la aplicación",
+      "descripcion": "Definir y diagramar los componentes principales de la interfaz de usuario de la aplicación",
+      "id": "F4heQ8R"
+    }
+  ],
+  "miembrosEquipo": [
+    {
+      "id": 1,
+      "nombre": "Jose Carvajal"
+    },
+    {
+      "id": 2,
+      "nombre": "Pepito Pérez"
+    }
+  ]
+}

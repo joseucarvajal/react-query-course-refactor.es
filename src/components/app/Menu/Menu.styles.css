@@ -1,0 +1,13 @@
+.navbar {
+    align-items: flex-start;
+}
+
+.navbar-brand {
+    font-size: 0.9rem;
+}
+
+.nav-link {
+    padding: 0.2rem 1rem;
+}
+
+
