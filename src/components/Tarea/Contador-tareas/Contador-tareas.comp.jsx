@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import {
     Spinner,
@@ -7,34 +7,11 @@ import {
     Badge,
 } from 'react-bootstrap';
 
-import useTareasApi from '../../../Api/useTareasApi';
+import { useDatosTarea } from '../../../Hooks/Tarea/useDatosTarea.hook';
 
 function ContadorTareas({ soloTareasPendientes }) {
 
-    const tareasApi = useTareasApi();
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [tareasList, setTareasList] = useState([]);
-
-    const getTareas = async () => {
-        try {
-            setIsLoading(true);
-            const { data } = await tareasApi.get("/tareas");
-            setTareasList(data);
-            setError(null);
-        }
-        catch (err) {
-            setError('Hubo un error cargando las tareas');
-            setTareasList([]);
-        }
-        finally {
-            setIsLoading(false);
-        }
-    }
-    
-    useEffect(() => {
-        getTareas();
-    }, []);
+    const {isLoading, error, tareasList} = useDatosTarea();
 
     if (isLoading) {
         return <Spinner animation="border" variant="primary" />
@@ -48,7 +25,7 @@ function ContadorTareas({ soloTareasPendientes }) {
     }
 
     if (soloTareasPendientes) {
-        const contadorTareas = tareasList.reduce(
+        const contadorTareas = tareasList?.reduce(
             (acum, tarea) => acum + (tarea.estado !== 'terminada' ? 1 : 0), 0
         );
 

@@ -6,7 +6,7 @@ import {
 
 import TareaItem from '../Tarea-item/Tarea-item.comp';
 
-const ListadoTareas = ({tareasList}) => {
+const ListadoTareas = ({tareasList, onTareaEliminada}) => {
 
     if(!tareasList || tareasList.length === 0){
         return null;
@@ -20,6 +20,7 @@ const ListadoTareas = ({tareasList}) => {
                     <TareaItem
                         key={tarea.id}
                         tarea={tarea}
+                        onTareaEliminada={onTareaEliminada}
                     />
                 )}
             </ListGroup>
