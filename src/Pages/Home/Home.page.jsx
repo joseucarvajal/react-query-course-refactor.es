@@ -7,9 +7,9 @@ const Home = () => {
             Home page
             <br />
             <br />
-            <b>v1.5</b>: Búsqueda de tareas por id, mostrar detalle de tarea en vista de modificación
+            <b>v1.5.1</b>: Solución a BUG #1  de refresco de datos de la tarea en modo modificación
             <Alert variant="danger">
-                <b>ERROR</b> re-render al actualizar tarea
+                <b>BUG #2</b> No se actualizan los contadores de tareas debido a que se deshabilitó el refetch.
             </Alert>
         </div>
     )

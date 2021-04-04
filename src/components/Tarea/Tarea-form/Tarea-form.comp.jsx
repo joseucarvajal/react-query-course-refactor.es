@@ -45,7 +45,7 @@ const TareaForm = ({ tarea, operacion }) => {
             await actualizarTarea(datosTarea);
         }
 
-        refetch();
+        //refetch();
     }
 
     return (
