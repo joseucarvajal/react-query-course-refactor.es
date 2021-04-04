@@ -1,5 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
-import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
+import { useCallback, useEffect, useState } from 'react';
 import useTareasApi from '../../Api/useTareasApi';
 
 export const useTarea = (idTarea) => {
@@ -7,14 +6,10 @@ export const useTarea = (idTarea) => {
     const [tarea, setTarea] = useState();
 
     const tareasApi = useTareasApi();
-
-    const {
-        status,
-        setStatus,
-        setError,
-        error,
-    } = useContext(tareaContext);
-
+    
+    const [status, setStatus] = useState('idle');
+    const [error, setError] = useState('');
+    
     const refetch = useCallback(async () => {
 
         if(!idTarea){
