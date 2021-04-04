@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 
 import {
@@ -6,37 +6,14 @@ import {
 } from "react-router-dom";
 
 import TareaForm from '../../components/Tarea/Tarea-form/Tarea-form.comp';
-import useTareasApi from '../../Api/useTareasApi';
+import { useTarea } from '../../Hooks/Tarea/useTarea.hook';
 
 const ModificarTareaPage = () => {
 
     let { idTarea } = useParams();
+    const { status, tarea, error } = useTarea(idTarea);
 
-    const tareasApi = useTareasApi();
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
-
-    const [tarea, setTarea] = useState({});
-
-    useEffect(()=>{
-        const getTareaById = async () => {
-            try {
-                setIsLoading(true);
-                const { data } = await tareasApi.get(`/tareas/${idTarea}`);
-                setTarea(data);
-            }
-            catch (err) {
-                setError('Hubo un error cargado la tarea');
-            }
-            finally {
-                setIsLoading(false);
-            }
-        }
-
-        getTareaById();
-    }, [idTarea]);
-
-    if (isLoading) {
+    if (status === 'loading' || !tarea) {
         return <Spinner animation="border" variant="primary" />
     }
     if (error) {
@@ -48,8 +25,8 @@ const ModificarTareaPage = () => {
     }
 
     return (
-        <TareaForm tarea={tarea} operacion='modificar' />
-    )
+        <TareaForm tarea={tarea} operacion='actualizar' />
+    );
 }
 
 export default ModificarTareaPage;

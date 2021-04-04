@@ -2,7 +2,7 @@
     padding: 0.2rem 0.5rem;
 }
 
-.vertical-center {
+.vertical-centered {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,4 +10,12 @@
 
 .btn-eliminar {
     padding: .1rem .5rem;
+}
+
+.item-tarea {
+    background-color: none;
+}
+
+.item-tarea:hover {
+    background-color: #d4edda;
 }

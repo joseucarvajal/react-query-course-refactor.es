@@ -14,14 +14,21 @@ import { Link } from 'react-router-dom';
 
 import { useEliminarTarea } from '../../../../Hooks/Tarea/useEliminarTarea.hook';
 
-const TareaItem = ({ tarea, onTareaEliminada }) => {
+const TareaItem = ({ tarea }) => {
     const { status, eliminarTarea, refetch } = useEliminarTarea();
 
     return (
-        <ListGroup.Item variant="light">
+        <ListGroup.Item variant="light" className="item-tarea">
             <Row>
-                <Col md={{ span: 11 }} className="vertical-center">
-                    <Link to={`/modificar-tarea/${tarea.id}`}>{tarea.titulo}</Link>
+                <Col md={{ span: 11 }} className="vertical-centered">
+                    <Row>
+                        <Col >
+                            <Link to={`/modificar-tarea/${tarea.id}`} style={{ display: 'inline' }}>{tarea.titulo}</Link>
+                        </Col>
+                        <Col xs={2} >
+                            {tarea.id}
+                        </Col>
+                    </Row>
                 </Col>
                 <Col>
                     {status === 'loading'

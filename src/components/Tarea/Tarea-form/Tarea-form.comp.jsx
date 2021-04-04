@@ -12,6 +12,7 @@ import {
 
 import { useCrearTarea } from '../../../Hooks/Tarea/useCrearTarea.hook';
 import { useActualizarTarea } from '../../../Hooks/Tarea/useActualizarTarea.hook';
+import TareaDetalle from '../Tarea-detalle/Tarea-detalle.comp';
 
 const TareaForm = ({ tarea, operacion }) => {
 
@@ -40,7 +41,7 @@ const TareaForm = ({ tarea, operacion }) => {
                 estado: 'sin-iniciar',
             });
         }
-        else if (operacion === 'modificar') {
+        else if (operacion === 'actualizar') {
             await actualizarTarea(datosTarea);
         }
 
@@ -49,6 +50,15 @@ const TareaForm = ({ tarea, operacion }) => {
 
     return (
         <Form onSubmit={onSubmit} className="tarea-form">
+
+            {operacion === 'actualizar'
+                ?
+                <Form.Group>
+                    <TareaDetalle tarea={tarea}/>
+                </Form.Group>
+                : null
+            }
+
             <Form.Group>
                 {
                     status === 'loading' || statusActualizar === 'loading'
@@ -133,16 +143,17 @@ const TareaForm = ({ tarea, operacion }) => {
                     Guardar
             </Button>
 
-            <Form.Group>
-                <br />
-                {error || errorActualizar ?
+
+            {error || errorActualizar
+                ?
+                <Form.Group>
+                    <br />
                     <Alert variant="danger">
                         {error} {errorActualizar}
                     </Alert>
-                    : null
-                }
-            </Form.Group>
-
+                </Form.Group>
+                : null
+            }
         </Form>
     )
 }

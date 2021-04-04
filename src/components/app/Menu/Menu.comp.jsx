@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 
 import ContadorTareas from '../../Tarea/Contador-tareas/Contador-tareas.comp';
+import BuscadorTarea from '../../Tarea/Buscador-tarea/Buscador-tarea.comp';
 
 const Menu = () => {
     return (
@@ -23,9 +24,15 @@ const Menu = () => {
                 <Nav.Link as={Link} to="/tareas-list">Tareas</Nav.Link>
                 <NavDropdown.Divider />
             </Nav>
+
+            <BuscadorTarea />
+
+            <br />
+
             <ContadorTareas
                 soloTareasPendientes={true}
             />
+
         </Navbar>
     )
 }
