@@ -3,16 +3,16 @@ import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
 
 export const useDatosTarea = () => {
 
-    const { isLoading, error, getTareas, tareasList } = useContext(tareaContext);
+    const { status, error, refetch, data } = useContext(tareaContext);
 
     useEffect(() => {
-        getTareas();
+        refetch();
     }, []);
 
     return {
-        isLoading,
+        status,
         error,
-        getTareas,
-        tareasList
+        refetch,
+        data
     };
 }

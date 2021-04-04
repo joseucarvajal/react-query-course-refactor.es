@@ -1,9 +1,9 @@
-import { useContext, useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
 import useTareasApi from '../../Api/useTareasApi';
 
-export const useEliminarTarea = () => {
-
+export const useCrearTarea = () => {
+    
     const tareasApi = useTareasApi();
 
     const { 
@@ -14,25 +14,24 @@ export const useEliminarTarea = () => {
         refetch 
     } = useContext(tareaContext);
 
-    const eliminarTarea = useCallback(async (idTarea) => {
+    const crearTarea = useCallback(async (tarea) => {
         try {
             setStatus('loading');
-            await tareasApi.delete(`/tareas/${idTarea}`);
+            await tareasApi.post(`/tareas`, tarea);
             setStatus('success');
             setError(null);
         }
         catch (err) {
             setStatus('error');
-            setError('Hubo un error actualizando la tarea');
+            setError('Hubo un error creando la tarea');
             console.error(err);
         }
     });
 
     return {
-        eliminarTarea,
+        crearTarea,
         status,
         refetch,
         error,
     };
-
 }

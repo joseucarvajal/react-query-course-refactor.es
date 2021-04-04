@@ -1,4 +1,11 @@
-import React, { createContext, useState, useMemo, useRef } from 'react';
+import React, 
+{ 
+    createContext, 
+    useState, 
+    useMemo, 
+    useRef
+} from 'react';
+
 import useTareasApi from '../../Api/useTareasApi';
 
 export const tareaContext = createContext();
@@ -6,28 +13,30 @@ export const tareaContext = createContext();
 const TareaProvider = ({ children }) => {
 
     const tareasApi = useTareasApi();
-    const [isLoading, setIsLoading] = useState(true);
-    const [estadoRequest, setEstadoRequest] = useState('');
+    const [status, setStatus] = useState('idle');
     const [error, setError] = useState('');
-    const [tareasList, setTareasList] = useState([]);
+
+    //Listado de tareas
+    const [data, setData] = useState([]);
     
     const promesaActivaRef = useRef(false)
 
-    const getTareas = async () => {
+    const refetch = async () => {
         if (!promesaActivaRef.current) {
             promesaActivaRef.current = (async () => {
                 try {
-                    setIsLoading(true);
+                    setStatus('loading');
                     const { data } = await tareasApi.get("/tareas");
-                    setTareasList(data);
+                    setData(data);
+                    setStatus('success');
                     setError(null);
                 }
                 catch (err) {
+                    setStatus('error');
                     setError('Hubo un error cargando las tareas');
-                    setTareasList([]);
+                    setData([]);
                 }
                 finally {
-                    setIsLoading(false);
                     promesaActivaRef.current = false;
                 }
             })();
@@ -38,26 +47,43 @@ const TareaProvider = ({ children }) => {
 
     const eliminarTarea = async (idTarea) => {
         try {
-            setEstadoRequest('procesando');
+            setStatus('loading');
             await tareasApi.delete(`/tareas/${idTarea}`);
-            setEstadoRequest('exito');
+            setStatus('success');
             setError(null);
-            getTareas();
+            refetch();
         }
         catch (err) {
             setError('Hubo un error eliminando la tarea');
-            setEstadoRequest('');
+            setStatus('error');
+        }
+    }
+
+    const actualizarTarea = async (tarea) => {
+        try {
+            setStatus('loading');
+            await tareasApi.put(`/tareas/${tarea.id}`, tarea);
+            setStatus('success');
+            setError(null);
+            refetch();
+        }
+        catch (err) {
+            setStatus('error');
+            setError('Hubo un error actualizando la tarea');
+            setStatus('');
         }
     }
 
     const datosContexto = useMemo(() => ({
-        isLoading,
         error,
-        tareasList,
-        estadoRequest,
+        setError,
+        data,
+        status,
+        setStatus,
 
-        getTareas,
+        refetch,
         eliminarTarea,
+        actualizarTarea,
     }));
 
     return (

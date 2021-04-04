@@ -10,15 +10,14 @@ import {
     Alert,
 } from 'react-bootstrap';
 
-import useTareasApi from '../../../Api/useTareasApi';
+import { useCrearTarea } from '../../../Hooks/Tarea/useCrearTarea.hook';
+import { useActualizarTarea } from '../../../Hooks/Tarea/useActualizarTarea.hook';
 
-const TareaForm = ({tarea, operacion}) => {
+const TareaForm = ({ tarea, operacion }) => {
 
     const [datosTarea, setDatosTarea] = useState(tarea);
-
-    const tareasApi = useTareasApi();
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
+    const { crearTarea, status, error, refetch } = useCrearTarea();
+    const { actualizarTarea, status: statusActualizar, error: errorActualizar } = useActualizarTarea();
 
     const onCampoChange = (event) => {
         setDatosTarea(
@@ -30,37 +29,32 @@ const TareaForm = ({tarea, operacion}) => {
     }
 
     const onSubmit = async (event) => {
-        try {
-            event.preventDefault();
-            setError(null);
-            setIsLoading(true);
+        event.preventDefault();
+        if (operacion === 'crear') {
+            await crearTarea(datosTarea);
+            setDatosTarea({
+                titulo: '',
+                descripcion: '',
+                duracion: 0,
+                prioridad: 0,
+                estado: 'sin-iniciar',
+            });
+        }
+        else if (operacion === 'modificar') {
+            await actualizarTarea(datosTarea);
+        }
 
-            if(operacion === 'crear'){
-                await tareasApi.post("/tareas", datosTarea);
-                setDatosTarea({
-                    titulo:'',
-                    descripcion:'',
-                    duracion: 0,
-                    prioridad: 0,
-                    estado: 'sin-iniciar',
-                });
-            }
-            else if(operacion === 'modificar'){
-                await tareasApi.put(`/tareas/${tarea.id}`, datosTarea);
-            }
-        }
-        catch (err) {
-            setError('Hubo un error al guardar la tarea');
-        }
-        finally {
-            setIsLoading(false);
-        }
+        refetch();
     }
 
     return (
         <Form onSubmit={onSubmit} className="tarea-form">
             <Form.Group>
-                {isLoading ? <Spinner animation="border" size="md" variant="primary" /> : null}
+                {
+                    status === 'loading' || statusActualizar === 'loading'
+                        ? <Spinner animation="border" size="md" variant="primary" />
+                        : null
+                }
             </Form.Group>
 
             <Form.Group>
@@ -123,7 +117,8 @@ const TareaForm = ({tarea, operacion}) => {
             </Form.Row>
 
             <Button variant="primary" type="submit">
-                {isLoading ?
+                {status === 'loading' || statusActualizar === 'loading'
+                    ?
                     <>
                         <Spinner
                             as="span"
@@ -139,10 +134,10 @@ const TareaForm = ({tarea, operacion}) => {
             </Button>
 
             <Form.Group>
-                <br/>
-                {error ?
+                <br />
+                {error || errorActualizar ?
                     <Alert variant="danger">
-                        {error}
+                        {error} {errorActualizar}
                     </Alert>
                     : null
                 }

@@ -1,0 +1,13 @@
+.list-group-item {
+    padding: 0.2rem 0.5rem;
+}
+
+.vertical-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn-eliminar {
+    padding: .1rem .5rem;
+}

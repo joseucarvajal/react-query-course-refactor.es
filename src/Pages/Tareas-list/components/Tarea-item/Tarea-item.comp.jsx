@@ -1,4 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+
+import './Tarea-item.styles.css';
+
 import {
     Col,
     ListGroup,
@@ -12,24 +15,29 @@ import { Link } from 'react-router-dom';
 import { useEliminarTarea } from '../../../../Hooks/Tarea/useEliminarTarea.hook';
 
 const TareaItem = ({ tarea, onTareaEliminada }) => {
-    const { estadoRequest, eliminarTarea } = useEliminarTarea();
+    const { status, eliminarTarea, refetch } = useEliminarTarea();
 
     return (
         <ListGroup.Item variant="light">
             <Row>
-                <Col md={{ span: 11 }}>
+                <Col md={{ span: 11 }} className="vertical-center">
                     <Link to={`/modificar-tarea/${tarea.id}`}>{tarea.titulo}</Link>
                 </Col>
                 <Col>
-                    {estadoRequest === 'procesando'
+                    {status === 'loading'
                         ? <Spinner animation="border" variant="primary" />
                         : null
                     }
-                    {estadoRequest !== 'procesando'
+                    {status !== 'loading'
                         ?
-                        <Button variant="danger" onClick={() => {
-                            eliminarTarea(tarea.id);
-                        }}>
+                        <Button
+                            variant="danger"
+                            className="btn-eliminar"
+                            onClick={async () => {
+                                await eliminarTarea(tarea.id);
+                                refetch();
+                            }}
+                        >
                             <Trash />
                         </Button>
                         : null

@@ -11,9 +11,9 @@ import { useDatosTarea } from '../../../Hooks/Tarea/useDatosTarea.hook';
 
 function ContadorTareas({ soloTareasPendientes }) {
 
-    const {isLoading, error, tareasList} = useDatosTarea();
+    const {status, error, data} = useDatosTarea();
 
-    if (isLoading) {
+    if (status === 'loading') {
         return <Spinner animation="border" variant="primary" />
     }
     if (error) {
@@ -25,7 +25,7 @@ function ContadorTareas({ soloTareasPendientes }) {
     }
 
     if (soloTareasPendientes) {
-        const contadorTareas = tareasList?.reduce(
+        const contadorTareas = data?.reduce(
             (acum, tarea) => acum + (tarea.estado !== 'terminada' ? 1 : 0), 0
         );
 
@@ -38,7 +38,7 @@ function ContadorTareas({ soloTareasPendientes }) {
 
     return (
         <Button variant="primary" block>
-            <Badge variant="light">{tareasList?.length}</Badge> Tareas
+            <Badge variant="light">{data?.length}</Badge> Tareas
         </Button>
     );
 }

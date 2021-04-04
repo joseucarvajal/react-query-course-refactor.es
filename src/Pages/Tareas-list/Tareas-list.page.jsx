@@ -7,6 +7,8 @@ import {
     Alert,
 } from 'react-bootstrap';
 
+import TareaFormSimple from '../../components/Tarea/Tarea-form-simple/Tarea-form-simple.comp';
+
 import { useDatosTarea } from '../../Hooks/Tarea/useDatosTarea.hook';
 
 import CrearTarea from './components/Crear-tarea/Crear-tarea.comp';
@@ -14,7 +16,7 @@ import ListadoTareas from './components/Listado-tareas/Listado-tareas.comp';
 
 const TareasListPage = () => {
 
-    const { isLoading, error, tareasList, getTareas } = useDatosTarea();
+    const { isLoading, error, data, refetch } = useDatosTarea();
 
     return (
         <Tabs
@@ -22,7 +24,7 @@ const TareasListPage = () => {
             transition={false}
             onSelect={(tabKey) => {
                 if (tabKey === 'listar') {
-                    getTareas();
+                    refetch();
                 }
             }}
         >
@@ -37,7 +39,15 @@ const TareasListPage = () => {
                     </Alert>
                     : null
                 }
-                <ListadoTareas tareasList={tareasList}/>
+                <ListadoTareas tareasList={data} />
+                <TareaFormSimple
+                    tarea={{
+                        estado: 'sin-iniciar',
+                        duracion: 0,
+                        prioridad: 0,
+                    }}
+                    operacion='crear'
+                />
             </Tab>
             <Tab eventKey="adicionar" title="Agregar nueva tarea">
                 <CrearTarea />
