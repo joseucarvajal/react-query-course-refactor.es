@@ -45,33 +45,64 @@ const TareaProvider = ({ children }) => {
         return promesaActivaRef.current;
     }
 
-    const eliminarTarea = async (idTarea) => {
-        try {
-            setStatus('loading');
-            await tareasApi.delete(`/tareas/${idTarea}`);
-            setStatus('success');
-            setError(null);
-            refetch();
-        }
-        catch (err) {
-            setError('Hubo un error eliminando la tarea');
-            setStatus('error');
-        }
-    }
+    //Hash de tareas
+    const [hashTareas, setHashEstadoTareas] = useState({});
 
-    const actualizarTarea = async (tarea) => {
-        try {
-            setStatus('loading');
-            await tareasApi.put(`/tareas/${tarea.id}`, tarea);
-            setStatus('success');
-            setError(null);
-            refetch();
+    const promesaTareaActivaRef = useRef({});
+
+    const almacenarTarea = (idTarea, datosTarea) => {
+        setHashEstadoTareas((anteriorHashTareas) => ({
+            ...anteriorHashTareas,
+            [idTarea]: datosTarea
+        }));
+    };
+
+    const refetchById = async (idTarea) => {
+
+        if(!idTarea){
+            return;
         }
-        catch (err) {
-            setStatus('error');
-            setError('Hubo un error actualizando la tarea');
-            setStatus('');
+
+        if (!promesaTareaActivaRef.current[idTarea]) {
+            promesaTareaActivaRef.current[idTarea] = (async () => {
+                try {
+                    almacenarTarea(
+                        idTarea,
+                        {
+                            ...setHashEstadoTareas[idTarea],
+                            status: 'loading'
+                        }
+                    );
+
+                    const { data } = await tareasApi.get(`/tareas/${idTarea}`);
+
+                    almacenarTarea(
+                        idTarea,
+                        {
+                            ...setHashEstadoTareas[idTarea],
+                            status: 'success',
+                            error: '',
+                            data: data
+                        }
+                    );
+                }
+                catch (err) {
+                    almacenarTarea(
+                        idTarea,
+                        {
+                            ...setHashEstadoTareas[idTarea],
+                            status: 'error',
+                            error: 'error al almacenar la tarea',
+                        }
+                    );
+                }
+                finally {
+                    promesaTareaActivaRef.current[idTarea] = false;
+                }
+            })();
         }
+
+        return promesaTareaActivaRef.current[idTarea];
     }
 
     const datosContexto = useMemo(() => ({
@@ -80,10 +111,10 @@ const TareaProvider = ({ children }) => {
         data,
         status,
         setStatus,
+        hashTareas,
 
         refetch,
-        eliminarTarea,
-        actualizarTarea,
+        refetchById,
     }));
 
     return (

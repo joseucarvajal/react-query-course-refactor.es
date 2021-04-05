@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Tarea-form.styles.css';
 
@@ -13,12 +13,17 @@ import {
 import { useCrearTarea } from '../../../Hooks/Tarea/useCrearTarea.hook';
 import { useActualizarTarea } from '../../../Hooks/Tarea/useActualizarTarea.hook';
 import TareaDetalle from '../Tarea-detalle/Tarea-detalle.comp';
+import { useTarea } from '../../../Hooks/Tarea/useTarea.hook';
 
 const TareaForm = ({ tarea, operacion }) => {
 
     const [datosTarea, setDatosTarea] = useState(tarea);
     const { crearTarea, status, error, refetch } = useCrearTarea();
     const { actualizarTarea, status: statusActualizar, error: errorActualizar } = useActualizarTarea();
+    
+    
+    const [idTarea, setIdTarea] = useState(undefined);
+    useTarea(idTarea);
 
     const onCampoChange = (event) => {
         setDatosTarea(
@@ -43,6 +48,7 @@ const TareaForm = ({ tarea, operacion }) => {
         }
         else if (operacion === 'actualizar') {
             await actualizarTarea(datosTarea);
+            setIdTarea(tarea.id); //Actualizar tarea en el estado global
         }
 
         refetch();

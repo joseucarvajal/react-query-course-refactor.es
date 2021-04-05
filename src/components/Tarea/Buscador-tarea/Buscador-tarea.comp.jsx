@@ -30,7 +30,6 @@ const BuscadorTarea = () => {
         <Card>
             <Card.Body>
                 <Form>
-
                     {
                         status === 'loading'
                             ?
@@ -40,9 +39,9 @@ const BuscadorTarea = () => {
                             : null
                     }
 
-                    <Form.Row block>
+                    <Form.Row>
                         <Form.Group as={Col} className="buscar">
-                            <InputGroup block>
+                            <InputGroup>
                                 <Form.Control
                                     name="titulo"
                                     placeholder="Id tarea"

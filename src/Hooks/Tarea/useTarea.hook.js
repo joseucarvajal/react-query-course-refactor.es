@@ -1,35 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
-import useTareasApi from '../../Api/useTareasApi';
+import { useCallback, useEffect, useContext } from 'react';
+import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
 
 export const useTarea = (idTarea) => {
 
-    const [tarea, setTarea] = useState();
+    const { hashTareas, refetchById } = useContext(tareaContext);
 
-    const tareasApi = useTareasApi();
-    
-    const [status, setStatus] = useState('idle');
-    const [error, setError] = useState('');
-    
-    const refetch = useCallback(async () => {
+    const { data: tarea, status, error } = hashTareas[idTarea] || { status: 'idle' };
 
-        if(!idTarea){
-            return;
-        }
-
-        try {
-            setStatus('loading');
-            const { data } = await tareasApi.get(`/tareas/${idTarea}`);
-            setTarea(data);
-            setStatus('success');
-            setError(null);
-        }
-        catch (err) {
-            setStatus('idle');
-        }
-        finally{
-
-        }
-    }, [idTarea]);
+    const refetch = useCallback(
+        async () => refetchById(idTarea),
+        [idTarea]
+    );
 
     useEffect(() => {
         refetch();
