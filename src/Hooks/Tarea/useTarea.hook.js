@@ -14,5 +14,8 @@ export const useTarea = (idTarea) => {
         return data;
     }, {
         enabled:!!idTarea, //ignored when refetch
+        retry: 0,
+        cacheTime: 10*1000,
+        staleTime: 2*60000,
     });
 }

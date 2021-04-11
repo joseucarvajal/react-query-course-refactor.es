@@ -8,7 +8,8 @@ export const useActualizarTarea = () => {
         tarea =>  tareasApi.put(`/tareas/${tarea.id}`, tarea),
     {
         onSuccess: (response, tarea)=>{
-            queryClient.refetchQueries(['tareas', tarea.id]);
+            queryClient.setQueryData(['tareas', tarea.id], tarea);
+            queryClient.refetchQueries('tareas');
         },
     });
 }

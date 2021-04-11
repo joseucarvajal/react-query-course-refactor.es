@@ -11,5 +11,6 @@ export const useDatosTarea = () => {
         return data;
     }, {
         refetchOnWindowFocus: false,
+        staleTime: Infinity,
     });
 }

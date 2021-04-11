@@ -25,6 +25,12 @@ const BuscadorTarea = () => {
     const onTareaChange = async (event) => {
         setTareaId(event.target.value.trim());
     }
+
+    useEffect(()=>{
+        if(isError){
+            setTareaId('');
+        }
+    }, [isError]);
     
     return (
         <Card>
