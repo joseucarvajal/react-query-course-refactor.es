@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Buscador-tarea.styles.css';
 
@@ -20,30 +20,21 @@ import { useTarea } from '../../../Hooks/Tarea/useTarea.hook';
 const BuscadorTarea = () => {
 
     const [tareaId, setTareaId] = useState();
-    const { status, tarea } = useTarea(tareaId);
+    const { status, data: tarea, isError } = useTarea(tareaId);
 
     const onTareaChange = async (event) => {
         setTareaId(event.target.value.trim());
     }
-
+    
     return (
         <Card>
             <Card.Body>
                 <Form>
-                    {
-                        status === 'loading'
-                            ?
-                            <Form.Group>
-                                <Spinner animation="border" size="md" variant="primary" />
-                            </Form.Group>
-                            : null
-                    }
-
                     <Form.Row>
                         <Form.Group as={Col} className="buscar">
                             <InputGroup>
                                 <Form.Control
-                                    name="titulo"
+                                    value={tareaId}
                                     placeholder="Id tarea"
                                     onChange={onTareaChange}
                                 />
@@ -55,7 +46,14 @@ const BuscadorTarea = () => {
                             </InputGroup>
                         </Form.Group>
                     </Form.Row>
-
+                    {
+                        status === 'loading' && tareaId
+                            ?
+                            <Form.Group>
+                                <Spinner animation="border" size="md" variant="primary" />
+                            </Form.Group>
+                            : null
+                    }
                     {
                         tarea && status === 'success'
                             ?
@@ -65,6 +63,18 @@ const BuscadorTarea = () => {
                                         {tarea.titulo}
                                     </Link>
                                 </Alert>
+                            </Form.Row>
+                            : null
+                    }
+                    {
+                        isError
+                            ?
+                            <Form.Row>
+                                <Col>
+                                    <Alert variant="warning">
+                                        Tarea no encontrada
+                                </Alert>
+                                </Col>
                             </Form.Row>
                             : null
                     }

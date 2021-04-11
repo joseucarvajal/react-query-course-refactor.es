@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Alert, Spinner } from 'react-bootstrap';
 
 import {
@@ -11,7 +11,7 @@ import { useTarea } from '../../Hooks/Tarea/useTarea.hook';
 const ModificarTareaPage = () => {
 
     let { idTarea } = useParams();
-    const { status, tarea, error } = useTarea(idTarea);
+    const { status, data:tarea, error } = useTarea(idTarea);
 
     if (status === 'loading' || !tarea) {
         return <Spinner animation="border" variant="primary" />

@@ -1,25 +1,18 @@
-import { useCallback, useEffect, useContext } from 'react';
-import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
+import {
+    useQuery,
+} from 'react-query';
+
+import useTareasApi from '../../Api/useTareasApi';
 
 export const useTarea = (idTarea) => {
-
-    const { hashTareas, refetchById } = useContext(tareaContext);
-
-    const { data: tarea, status, error } = hashTareas[idTarea] || { status: 'idle' };
-
-    const refetch = useCallback(
-        async () => refetchById(idTarea),
-        [idTarea]
-    );
-
-    useEffect(() => {
-        refetch();
-    }, [refetch]);
-
-    return {
-        status,
-        refetch,
-        error,
-        tarea,
-    };
+    const tareasApi = useTareasApi();
+    return useQuery(['tareas', idTarea], async () => {
+        if(!idTarea){ //When refetch (e.g. windows focus)
+            return null;
+        }
+        const { data } = await tareasApi.get(`/tareas/${idTarea}`);
+        return data;
+    }, {
+        enabled:!!idTarea, //ignored when refetch
+    });
 }

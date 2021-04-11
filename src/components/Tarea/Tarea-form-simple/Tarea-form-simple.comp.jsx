@@ -13,7 +13,7 @@ import { useCrearTarea } from '../../../Hooks/Tarea/useCrearTarea.hook';
 
 const TareaFormSimple = ({ tarea }) => {
 
-    const { crearTarea, status, error, refetch } = useCrearTarea();
+    const { mutate: crearTarea, status, error } = useCrearTarea();
     const [datosTarea, setDatosTarea] = useState(tarea);
 
     const onCampoChange = (event) => {
@@ -35,7 +35,6 @@ const TareaFormSimple = ({ tarea }) => {
             prioridad: 0,
             estado: 'sin-iniciar',
         });
-        refetch();
     }
 
     return (
@@ -72,20 +71,7 @@ const TareaFormSimple = ({ tarea }) => {
                 type="submit"
                 className="btn-guardar"
             >
-                {status === 'loading' ?
-                    <>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        {' '}
-                    </>
-                    : null
-                }
-                    Guardar
+                Guardar
             </Button>
 
 

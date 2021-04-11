@@ -18,12 +18,15 @@ import { useTarea } from '../../../Hooks/Tarea/useTarea.hook';
 const TareaForm = ({ tarea, operacion }) => {
 
     const [datosTarea, setDatosTarea] = useState(tarea);
-    const { crearTarea, status, error, refetch } = useCrearTarea();
-    const { actualizarTarea, status: statusActualizar, error: errorActualizar } = useActualizarTarea();
-    
-    
+    const { mutate: crearTarea, status, error } = useCrearTarea();
+    const { mutate: actualizarTarea, status: statusActualizar, error: errorActualizar } = useActualizarTarea();
+
     const [idTarea, setIdTarea] = useState(undefined);
     useTarea(idTarea);
+
+    useEffect(() => {
+        setDatosTarea(tarea);
+    }, [tarea]);
 
     const onCampoChange = (event) => {
         setDatosTarea(
@@ -50,8 +53,6 @@ const TareaForm = ({ tarea, operacion }) => {
             await actualizarTarea(datosTarea);
             setIdTarea(tarea.id); //Actualizar tarea en el estado global
         }
-
-        refetch();
     }
 
     return (
@@ -60,7 +61,7 @@ const TareaForm = ({ tarea, operacion }) => {
             {operacion === 'actualizar'
                 ?
                 <Form.Group>
-                    <TareaDetalle tarea={tarea}/>
+                    <TareaDetalle tarea={tarea} />
                 </Form.Group>
                 : null
             }
@@ -133,20 +134,7 @@ const TareaForm = ({ tarea, operacion }) => {
             </Form.Row>
 
             <Button variant="primary" type="submit">
-                {status === 'loading' || statusActualizar === 'loading'
-                    ?
-                    <>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        {' '}
-                    </>
-                    : null}
-                    Guardar
+                Guardar
             </Button>
 
 

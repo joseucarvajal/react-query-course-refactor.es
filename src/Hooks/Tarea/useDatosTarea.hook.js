@@ -1,18 +1,15 @@
-import { useContext, useEffect } from 'react';
-import { tareaContext } from '../../Providers/Tarea/Tarea.provider';
+import {
+    useQuery,
+} from 'react-query';
+
+import useTareasApi from '../../Api/useTareasApi';
 
 export const useDatosTarea = () => {
-
-    const { status, error, refetch, data } = useContext(tareaContext);
-
-    useEffect(() => {
-        refetch();
-    }, []);
-
-    return {
-        status,
-        error,
-        refetch,
-        data
-    };
+    const tareasApi = useTareasApi();
+    return useQuery('tareas', async () => {
+        const { data } = await tareasApi.get(`/tareas`);
+        return data;
+    }, {
+        refetchOnWindowFocus: false,
+    });
 }

@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { useEliminarTarea } from '../../../../Hooks/Tarea/useEliminarTarea.hook';
 
 const TareaItem = ({ tarea }) => {
-    const { status, eliminarTarea, refetch } = useEliminarTarea();
+    const { status, mutate:eliminarTarea } = useEliminarTarea();
 
     return (
         <ListGroup.Item variant="light" className="item-tarea">
@@ -42,7 +42,6 @@ const TareaItem = ({ tarea }) => {
                             className="btn-eliminar"
                             onClick={async () => {
                                 await eliminarTarea(tarea.id);
-                                refetch();
                             }}
                         >
                             <Trash />

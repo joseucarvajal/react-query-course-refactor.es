@@ -19,3 +19,8 @@
 .item-tarea:hover {
     background-color: #d4edda;
 }
+
+.spinner-border {
+    width: 1.7rem;
+    height: 1.7rem;
+}

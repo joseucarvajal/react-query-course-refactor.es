@@ -7,7 +7,10 @@ const Home = () => {
             Home page
             <br />
             <br />
-            <b>v1.6</b>: Solución a BUG #3  de refresco del componente de "modificar tarea" y del buscador de tareas
+            <b>v1.7</b>: Migrar queries y mutations a React-Query
+            <Alert variant="danger">
+                <b>BUG #4</b> No se actualizan contadores al actualizar estado de una tarea
+            </Alert>
         </div>
     )
 }
