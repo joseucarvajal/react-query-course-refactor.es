@@ -6,16 +6,12 @@ import useTareasApi from '../../Api/useTareasApi';
 
 export const useTarea = (idTarea) => {
     const tareasApi = useTareasApi();
-    return useQuery(['tareas', idTarea], async () => {
-        if(!idTarea){ //When refetch (e.g. windows focus)
-            return null;
-        }
+    return useQuery(idTarea && ['tareas', idTarea], async () => {
         const { data } = await tareasApi.get(`/tareas/${idTarea}`);
         return data;
     }, {
         enabled:!!idTarea, //ignored when refetch
-        retry: 0,
-        cacheTime: 10*1000,
+        //retry: 0,
         staleTime: 2*60000,
     });
 }

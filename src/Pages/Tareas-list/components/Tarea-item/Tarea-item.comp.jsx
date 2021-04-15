@@ -23,7 +23,7 @@ const TareaItem = ({ tarea }) => {
                 <Col md={{ span: 11 }} className="vertical-centered">
                     <Row>
                         <Col >
-                            <Link to={`/modificar-tarea/${tarea.id}`} style={{ display: 'inline' }}>{tarea.titulo}</Link>
+                            <Link to={tarea.id ? `/modificar-tarea/${tarea.id}`: '#'} style={{ display: 'inline' }}>{tarea.titulo}</Link>
                         </Col>
                         <Col xs={2} >
                             {tarea.id}

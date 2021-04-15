@@ -25,20 +25,16 @@ function ContadorTareas({ soloTareasPendientes }) {
     }
 
     if (soloTareasPendientes) {
-        const contadorTareas = data?.reduce(
-            (acum, tarea) => acum + (tarea.estado !== 'terminada' ? 1 : 0), 0
-        );
-
         return (
             <Button variant="warning" block>
-                <Badge variant="light">{contadorTareas}</Badge> Tareas pendientes
+                <Badge variant="light">{data.tareasPendientes}</Badge> Tareas pendientes
             </Button>
         );
     }
-
+    
     return (
         <Button variant="primary" block>
-            <Badge variant="light">{data?.length}</Badge> Tareas
+            <Badge variant="light">{data?.tareasList?.length}</Badge> Tareas
         </Button>
     );
 }

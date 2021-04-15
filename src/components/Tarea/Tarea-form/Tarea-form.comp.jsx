@@ -6,7 +6,6 @@ import {
     Form,
     Button,
     Col,
-    Spinner,
     Alert,
 } from 'react-bootstrap';
 
@@ -18,8 +17,8 @@ import { useTarea } from '../../../Hooks/Tarea/useTarea.hook';
 const TareaForm = ({ tarea, operacion }) => {
 
     const [datosTarea, setDatosTarea] = useState(tarea);
-    const { mutate: crearTarea, status, error } = useCrearTarea();
-    const { mutate: actualizarTarea, status: statusActualizar, error: errorActualizar } = useActualizarTarea();
+    const { mutate: crearTarea, error } = useCrearTarea();
+    const { mutate: actualizarTarea, error: errorActualizar } = useActualizarTarea();
 
     const [idTarea, setIdTarea] = useState(undefined);
     useTarea(idTarea);
@@ -65,14 +64,6 @@ const TareaForm = ({ tarea, operacion }) => {
                 </Form.Group>
                 : null
             }
-
-            <Form.Group>
-                {
-                    status === 'loading' || statusActualizar === 'loading'
-                        ? <Spinner animation="border" size="md" variant="primary" />
-                        : null
-                }
-            </Form.Group>
 
             <Form.Group>
                 <Form.Label>Título</Form.Label>
@@ -137,13 +128,12 @@ const TareaForm = ({ tarea, operacion }) => {
                 Guardar
             </Button>
 
-
-            {error || errorActualizar
+            {error || errorActualizar && (errorActualizar?.toString() !== 'Missing queryFn')
                 ?
                 <Form.Group>
                     <br />
                     <Alert variant="danger">
-                        {error} {errorActualizar}
+                        {error?.toString()} {errorActualizar?.toString()}
                     </Alert>
                 </Form.Group>
                 : null

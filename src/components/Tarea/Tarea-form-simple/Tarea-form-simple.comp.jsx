@@ -5,7 +5,6 @@ import './Tarea-form-simple.styles.css';
 import {
     Form,
     Button,
-    Spinner,
     Alert,
 } from 'react-bootstrap';
 
@@ -40,13 +39,6 @@ const TareaFormSimple = ({ tarea }) => {
     return (
         <Form onSubmit={onSubmit} className="tarea-form">
             <Form.Group>
-                {status === 'loading'
-                    ? <Spinner animation="border" size="md" variant="primary" />
-                    : null
-                }
-            </Form.Group>
-
-            <Form.Group>
                 <Form.Control
                     name="titulo"
                     value={datosTarea.titulo}
@@ -73,14 +65,13 @@ const TareaFormSimple = ({ tarea }) => {
             >
                 Guardar
             </Button>
-
-
+            
             <br />
             {status === 'error'
                 ?
                 <Form.Group>
                     <Alert variant="danger">
-                        {error}
+                        {error?.toString()}
                     </Alert>
                 </Form.Group>
                 : null

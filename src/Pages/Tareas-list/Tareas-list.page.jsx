@@ -35,11 +35,11 @@ const TareasListPage = () => {
                 }
                 {error
                     ? <Alert variant="danger">
-                        {error}
+                        {error.toString()}
                     </Alert>
                     : null
                 }
-                <ListadoTareas tareasList={data} />
+                <ListadoTareas tareasList={data?.tareasList} />
                 <TareaFormSimple
                     tarea={{
                         estado: 'sin-iniciar',
