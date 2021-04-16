@@ -5,13 +5,16 @@ import {
 import useTareasApi from '../../Api/useTareasApi';
 
 export const useTarea = (idTarea) => {
+    
+    console.log({idTarea});
+
     const tareasApi = useTareasApi();
-    return useQuery(idTarea && ['tareas', idTarea], async () => {
+    return useQuery(['tareas', idTarea], async () => {
         const { data } = await tareasApi.get(`/tareas/${idTarea}`);
         return data;
     }, {
         enabled:!!idTarea, //ignored when refetch
-        //retry: 0,
+        retry: 0,
         staleTime: 2*60000,
     });
 }
