@@ -13,13 +13,14 @@ const ModificarTareaPage = () => {
     let { idTarea } = useParams();
     const { status, data:tarea, error } = useTarea(idTarea);
 
-    if (status === 'loading' || !tarea) {
+    
+    if (status === 'loading') {
         return <Spinner animation="border" variant="primary" />
     }
     if (error) {
         return (
             <Alert variant="danger">
-                {error}
+               Tarea no encontrada
             </Alert>
         );
     }

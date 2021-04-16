@@ -31,7 +31,8 @@ export const useDatosTarea = () => {
                     queryClient.setQueryData(['tareas', tarea.id], tarea)
                 );
             },
-            staleTime: Infinity,
+            cacheTime: 10 * 60 * 1000,
+            staleTime: 6*1000,
             retry: 0,
         }
     );

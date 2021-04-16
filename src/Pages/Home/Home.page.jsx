@@ -6,7 +6,7 @@ const Home = () => {
             Home page
             <br />
             <br />
-            <b>v1.7.1</b>: Solución a BUG #4  de actualizar contadores al actualizar estado de una tarea
+            <b>v1.8</b>: Actualización optimista, manipulación de datos en memoria
         </div>
     )
 }
