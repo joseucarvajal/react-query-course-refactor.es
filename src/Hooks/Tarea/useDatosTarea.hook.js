@@ -10,6 +10,6 @@ export const useDatosTarea = () => {
         const { data } = await tareasApi.get(`/tareas`);
         return data;
     }, {
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: true,
     });
 }
